@@ -45,7 +45,7 @@ CREATE EXTERNAL TABLE ActivityLogP
     [Resource] VARCHAR(2000) --- because Resource is a keyword, put this in square brackets
 )
 WITH(
-    LOCATION = 'log.parquet', -- Name of the file in container 
+    LOCATION = '*.parquet', -- Name of the file in container 
     DATA_SOURCE = srcActivityLogParquet, 
     FILE_FORMAT = parquetFileFormat
 );
