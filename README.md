@@ -39,4 +39,23 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
     This script creates an external table from a CSV file in ADLS using dedicated SQL pool. Since it is CSV, we need to create Hadoop External table. So there are few changes like:
 
     - using abfss protocol while specifiying LOCATION while defining EXTERNAL DATA SOURCE
-    - 'TYPE' is given as 'HADOOP' 
+    - 'TYPE' is given as 'HADOOP'
+ ## Loading Data to dedicated SQL pools
+
+ We can create normal persisted table on dedicated SQL pool and load data using various ways.
+ 1. [LoadDataToNormalTable.sql](LoadDataToNormalTable.sql)
+
+    This file shows various ways:
+
+      - Create a new normal table using existent external table using CTAS stmt. The underlying technology used here is Polybase
+      - Creating a normal table using COPY INTO command which loads data from CSV file in ADLS
+      - Creating a normal table using COPY INTO command which loads data from Parquet file in ADLS
+      - Load data using 'Pipeline' which loads data from file in ADLS container
+      - use 'Pipelines' to transfer data from table in a relational DB(Azure SQL DB) to table in dedicated SQL Pool (Data Warehouse).
+   
+ 2. [ETL_Scripts.sql](ETL_Scripts.sql)
+
+    Our Azure SQL DB acts as a OLTP database from which we pull data into a DW. The data in DW is in dimensional model (facts and dimensions).
+    This script contains code to create tables which will store fact and dim tables. The source for these tables are in Azure SQL DB tables and we pull the data using Pipelines (Integrate tab on Synapse studio)
+
+    After Creating these tables in Synapse, now go create the Pipeline in Integration table. While specifying source Instead of 'Tables' choose 'Query' and copy SQL stmts found in the last section of this script. We have 1 fct and 2 dim tables...so repeat this activity 3 times one for each table
