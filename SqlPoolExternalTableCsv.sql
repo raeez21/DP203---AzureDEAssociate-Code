@@ -7,6 +7,7 @@ SECRET = 'sv=2022-11-02&ss=b&srt=sco&sp=rlx&se=2024-06-21T22:06:16Z&st=2024-06-2
 
 CREATE EXTERNAL DATA SOURCE srcActivityLogCsv
 WITH(
+    -- .blob is used below bcoz we need to access individual files only. If we had nested folders in this container we had to use .dfs
     LOCATION = 'abfss://csv@adlsraeez.blob.core.windows.net', --since we using Hadoop driver, there is a change of url,(note the use of abfss protocol)
     TYPE = HADOOP, -- Since this is a CSV file we need to create a hadoop external table, so use this driver
     CREDENTIAL = sasToken2
