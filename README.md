@@ -59,3 +59,11 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
     This script contains code to create tables which will store fact and dim tables. The source for these tables are in Azure SQL DB tables and we pull the data using Pipelines (Integrate tab on Synapse studio)
 
     After Creating these tables in Synapse, now go create the Pipeline in Integration table. While specifying source Instead of 'Tables' choose 'Query' and copy SQL stmts found in the last section of this script. We have 1 fct and 2 dim tables...so repeat this activity 3 times one for each table
+
+
+3. [OptmisedETLScripts.sql](OptmisedETLScripts.sql)
+   
+    This script contains some optimised code icnluding hash distributed fact tables and replicated dimension tables. It also depicts the use of Surrogate Keys (SKs)
+
+   TODO: Do [TablePartitions.sql](TablePartitions.sql) and Synapse archi
+   
