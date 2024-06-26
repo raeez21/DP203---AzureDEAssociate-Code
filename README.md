@@ -65,5 +65,20 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
    
     This script contains some optimised code icnluding hash distributed fact tables and replicated dimension tables. It also depicts the use of Surrogate Keys (SKs)
 
+4. [TablePartitions.sql](TablePartitions.sql)
+
+   THis script contains code for understanding table partitions. We redefine previously created table with partitioned on a date column. Partition Switching is also performed in this script
+
+## Synapse Architecture
+
+ ![synapse architecture](Synapse%20architecture.png)
+ 
+ In Synapse, compute and storage are separate so that each can be scaled separately. The user data is stored in Azure Storage Account. 
+
+ All the queries are targeted towards control node. Then control node distributes query for parallel processing across compute nodes.
+
+ Refer about distribution and sharding in Synapse.
+
+
    TODO: Do [TablePartitions.sql](TablePartitions.sql) and Synapse archi
    
