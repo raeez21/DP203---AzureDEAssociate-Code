@@ -80,5 +80,5 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
  Refer about distribution and sharding in Synapse.
 
 
-   TODO: Do [TablePartitions.sql](TablePartitions.sql) and Synapse archi
+   TODO: Do ADF, [ADF_scripts.sql], [MappingDataFlow.sql]
    
