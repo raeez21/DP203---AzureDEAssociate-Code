@@ -81,4 +81,9 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
 
 
    TODO: Do ADF, [ADF_scripts.sql], [MappingDataFlow.sql]
+
+# 1. Azure Data Factory (ADF)
+
+ADF is a cloud based ETL tool and integration service. It is used to for orchestrating data movement and transforming data at scale.  The underlying compute infrastructre (Integration runtime) is managed for you. 
+
    
