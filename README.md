@@ -84,6 +84,26 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
 
 # 1. Azure Data Factory (ADF)
 
-ADF is a cloud based ETL tool and integration service. It is used to for orchestrating data movement and transforming data at scale.  The underlying compute infrastructre (Integration runtime) is managed for you. 
+ADF is a cloud based ETL tool and integration service. It is used to for orchestrating data movement and transforming data at scale.  The underlying compute infrastructre (Integration runtime) is managed for you.
 
+1. [ADF_scripts.sql](ADF_scripts.sql)
+
+    This file has script and steps to create simple pipelines.
+     - Task 1 = create a simple pipeline to copy data from 'Log.csv' (in ADLS) into a table in Synapse (Copy_adls_to_synapse Pipeline)
+     - Task 2 = Copy data from csv contianer to Parquet container (both in ADLS) (Copy_To_Parquet Pipeline)
+     - Task 3 = Modify task 2 to copy the output parquet file to a table in Synapse (Copy_To_Parquet Pipeline)
+     - Task 4 = Use a query in copy data tool to transfer data. we transfer data present in Azure SQL db to a table in Synapse (CopyUsingQuery_sqlDB_To_Synapse Pipeline)
+     - Task 5 = Adding additional columns (Copy_To_Parquet Pipeline)
+     - Task 6 = Copy data using Copy command (Copy_To_Parquet Pipeline)
+     - task 7 = Copy data usinng PolyBase
+
+2. [MappingDataFlow.sql](MappingDataFlow.sql)
+
+     This section has details code for learning Mapping Data flows in ADF. Mapping Data flows are usd when we have complex transformations to perform. The data flows run on a Spark CLsuter instead of Azure Integrtaion Runtime (which was used by Copy Data tool).
+    This file has commands for:
+     - Develop simple data flows to populate Fact and Dimesnion tables
+     - Adding derived column with dynamic values in fact_sales table
+     - Add a Surrogate Key to the Dim table using Mapping data flow (This was also done using Synapse, but ADF is better due to the proper sequence of the SK)
+     - Cache Sink and Lookup (VERY IMP) to continue the sequence of CustomerSK across different loads.
+  
    
