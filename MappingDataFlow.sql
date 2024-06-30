@@ -173,6 +173,125 @@ order by CustomerSK
   -- of CusotmerSK is 300
 
 SELECT * FROM dim_customer
-order by CustomerSK
+order by CustomerSK desc
 
+
+
+-- dim_product has duplicate rows because we ran the entire data flow twice (one for Customer01.csv and Customer02.csv)
+-- We need to handle this kind of duplicate rows
+SELECT * FROM dim_Product
+where ProductID = 879
 SELECT COUNT(*) FROM dim_Product
+
+DELETE FROM dim_Product;
+-- Delete these records to again do the Second load (Customer02.csv)
+DELETE FROM dim_customer
+where CustomerSK > 299
+-- Run the second load now
+
+-- One way to avoid duplicate rows is to create a source (DimProductLatest) in ADF data flow canvas which fetches all info currently in the dim_customers table
+-- Now in the ProductStream activity of data flow create a Exists tag
+-- This Exists checks only if the rows is not present currently in the output table , use DimProductLatest as right Stream here. 
+SELECT COUNT(*) FROM dim_Product
+
+
+
+
+-- Filtering rows
+-- This shows how we can filter rows while transfering data from source to destination
+SELECT * from logdata_parquet
+SELECT COUNT(*) from logdata_parquet
+-- We will be filtering rows having NULL in ResourceGroup column
+SELECT count(*) from logdata_parquet
+WHERE Resourcegroup IS NULL
+-- original table has 19229 rows with 191 NULl values 
+-- So 19229-191 = 19038 (this should be the final row count)
+
+-- Build a new data flow (dataflow_logdata_parquet)
+-- Between source and sink, add a 'filter' row modifier option (filterNullValues)
+-- Open up the expression builder and give below expression
+!(isNull({ResourceGroup})) -- this means  only if that Column is not null consider that
+
+DELETE FROM logdata_parquet;
+-- Run the pipeline and verify the count
+SELECT COUNT(*) FROM logdata_parquet
+
+
+-- Generate JSON data
+-- here we generate JSON data from Parqeut based files...take Parquet file in a container and store it as JSOn in another container
+-- Create new data flow 'dataflow_to_json'
+
+
+-- JSON to SQL pool
+-- Extend the above where we take the JSON from container to table in Synapse
+DELETE FROM logdata_parquet
+-- Now take the above pipeline (MappingDataFlow_logdata_json) and add a Simple Copy data activity that takes source as json container and Synapse table as sink
+-- So here  we have mixture of data flow and Copy data activity together in a pipeline
+-- In the 'dataflow_to_json' data flow edit the Settings tab--->File name Option = Output to Single file and give file name as log.json
+-- Trigger the pipeline
+SELECT count(*) from logdata_parquet
+
+
+-- Processing JSON arrays
+-- here we are dealing with JSON data with nested structure
+-- Customer.json  each customer has an array of 'courses'. In the final table it should be exploded, meaning for each customer, he should have each row for all of the courses in the array
+-- Create the target table here
+CREATE TABLE CustomerCourse
+(
+    CustomerID int,
+    CustomerName VARCHAR(200),
+    Registered BIT,
+    Courses VARCHAR(200)
+)
+
+-- Now creat a new data flow 'dataflow_JSON_arrays'
+-- In the source (CustomerSourceStream), got to Source Options->Json Settings->Document Form and choose 'Array of documents'
+-- use the 'Flatten' formatter between the source and sink
+SELECT * FROM CustomerCourse
+
+
+
+-- Processing JSON objects
+-- Nested JSON objects
+DROP TABLE CustomerCourse
+CREATE TABLE CustomerCourse
+(
+    CustomerID int,
+    CustomerName VARCHAR(200),
+    Registered BIT,
+    Courses VARCHAR(200),
+    Mobile varchar(200), -- additional columns from nested json
+    City VARCHAR(200) --addyional columns
+)
+--Edit the exisiting data flow (dataflow_JSON_arrays)
+-- On the CustomerSourceStream , Import the schema again
+-- Go to flatten, and add mappings manually
+-- Similarly import schema and fix mapping in the sink (CustomerTableSynapse)
+-- Trigger the pipeline and check
+SELECT * from CustomerCourse
+
+
+
+
+-- Conditional Split
+select * from logdata_parquet
+SELECT COUNT(*) from logdata_parquet
+
+SELECT Resourcegroup, Count(Operationname) as 'Operation Count' From logdata_parquet
+group by Resourcegroup
+-- We only want the records belonging to particular Resourcegroup (for eg: 'app-grp') to be pushed to this table
+DELETE FROM logdata_parquet
+
+
+-- Schema drift
+-- Copy behaviour for Copy Data Activity
+-- USe of Parameters to make it more dynamic (allows you to pass values during runtime)
+
+-- Create new data flow 'dataflow_conditional_split'
+-- between source and sink include a 'Conditional Split' task
+-- We create two streams from here-->
+            -- appgrpStream - where ResourceGroup == 'app-grp'
+            -- otherResourceGroup -  all other RGs
+-- Create a pipeline and trigger it
+SELECT Resourcegroup, Count(Operationname) as 'Operation Count' From logdata_parquet
+group by Resourcegroup
