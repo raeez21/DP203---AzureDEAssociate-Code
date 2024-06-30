@@ -105,5 +105,6 @@ ADF is a cloud based ETL tool and integration service. It is used to for orchest
      - Adding derived column with dynamic values in fact_sales table
      - Add a Surrogate Key to the Dim table using Mapping data flow (This was also done using Synapse, but ADF is better due to the proper sequence of the SK)
      - Cache Sink and Lookup (VERY IMP) to continue the sequence of CustomerSK across different loads.
-  
+
+TODO: append [MappingDataFlow.sql](MappingDataFlow.sql) and [SelfHostedIR.sql](SelfHostedIR.sql)
    
