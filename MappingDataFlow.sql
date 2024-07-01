@@ -295,3 +295,60 @@ DELETE FROM logdata_parquet
 -- Create a pipeline and trigger it
 SELECT Resourcegroup, Count(Operationname) as 'Operation Count' From logdata_parquet
 group by Resourcegroup
+
+
+
+
+
+--Get Metadata activity and ForEach
+DROP TABLE dim_customer;
+CREATE TABLE dim_customer
+(
+    CustomerID VARCHAR(200) NOT NULL,
+    CompanyName VARCHAR(200) NOT NULL,
+    SalesPerson VARCHAR(300) NOT NULL
+)
+WITH(
+    DISTRIBUTION = REPLICATE
+);
+-- Create metadata activity to fetch file names contained in Customer contianer
+-- Now add a Foreach activity and choose the ouput of metadata activity as items
+-- Within the forEach activity Add a Copy Data activity
+-- Then define a parameter for the source dataset for this copy actibity
+-- Add dynamic content for this parameter which is the value from Metadata actiity
+-- This lets you to have the filename in dynamic without hard coding
+SELECT * FROM dim_customer; 
+SELECT count(*) FROM dim_customer; 
+
+
+-- Using and running Stored Procedure through ADF
+CREATE PROCEDURE GetCompanyName
+    @pCustomerID int --this is a parameter
+AS
+    SELECT DISTINCT(CompanyName)
+    FROM dim_customer
+    WHERE CustomerID = @pCustomerID
+
+-- Test wether SP works properly
+EXEC GetCompanyName @pCustomerID=277
+-- Trigger this and try to find out this output in the run  (StoredProcedureGetCompanyName)
+-- Currently, this Stored Procedure Activity of ADF cannot return the output from the invoked SP.
+-- SO HOW DO WE GET THHE OUTPUT OF THIS SP?????
+
+
+-- We can use 'lookup' or 'Script' activity for this
+-- We use Lookup activity in our example
+-- Draga 'Lookup' activity and fill in the details, publish and trigger the pipeline
+-- In the pipeline run we can see the output Company Name as 'firstRow' field in the JSON output
+-- Now we use 'Set Variable' activity..this is used to set a value to a variable so that it can be used elsewhere in the pipeline.
+-- add dynamic content (LookupData firstRow) into the value of this variable
+-- Also set default value to this variable in case the previous activity fails (Lookup activity)
+
+-- Running a pipeline (Copy_To_Parquet) based o Storage event
+delete from logdata_parquet
+select * from logdata_parquet
+-- On add trigger option, Choose New/Edit Trigger OPtiin and create a new Storage Events trigger
+-- Publish the pipeline and add a new file (Log.csv) in the Contianer
+
+-- Another triggers are: schedule trigger and tumbling window trigger--->Refer notebook
+
