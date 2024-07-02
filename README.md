@@ -118,6 +118,11 @@ ADF is a cloud based ETL tool and integration service. It is used to for orchest
      - Lookup activity instead of Stored Procedure to get the output from the SP.
      - Running a pipeline (Copy_To_Parquet) based on Storage event trigger
      - Other triggers are: schedule trigger and tumbling window trigger
+2. [SelfHostedIR.sql](SelfHostedIR.sql)
 
+     FOr all the activities till now we were using Azure Integrated Runtime which provides compute infrastructure for our tasks (were bpth source and sinks were Azure services). This is not the case always, our data might be hosted on an on prem server. To use this server machine you need to register the server with ADF and to register you need to install Self Hosted IR.
+
+     In this program, We take log files situated in a separate VM. We created a VM instance, installed the Self hosted IR and load log file from VM into a container using Pipeline Copy Activity.
+   (VERY IMP) 
 TODO: append [MappingDataFlow.sql](MappingDataFlow.sql) and [SelfHostedIR.sql](SelfHostedIR.sql)
    
