@@ -105,6 +105,19 @@ ADF is a cloud based ETL tool and integration service. It is used to for orchest
      - Adding derived column with dynamic values in fact_sales table
      - Add a Surrogate Key to the Dim table using Mapping data flow (This was also done using Synapse, but ADF is better due to the proper sequence of the SK)
      - Cache Sink and Lookup (VERY IMP) to continue the sequence of CustomerSK across different loads.
+     - Handling duplicate rows using Exists activity
+     - Filter rows while transfering data from source to destination using filter' row modifier option
+     - Generate JSON data from Parqeut based files, i.e take Parquet file from a container and store it as JSON in another container
+     - Extend the above where we take the JSON from container to table in Synapse
+     - process JSON data with nested structure (JSON arrays) using 'Flatten' formatter
+     - Processing nested JSON objects
+     - Conditional Split (We only want the records belonging to particular Resourcegroup (for eg: 'app-grp') to be pushed to the sink table)
+     - Schema Drift (VERY IMP)
+     - Get Metadata activity and ForEach
+     - Using and running Stored Procedure through ADF
+     - Lookup activity instead of Stored Procedure to get the output from the SP.
+     - Running a pipeline (Copy_To_Parquet) based on Storage event trigger
+     - Other triggers are: schedule trigger and tumbling window trigger
 
 TODO: append [MappingDataFlow.sql](MappingDataFlow.sql) and [SelfHostedIR.sql](SelfHostedIR.sql)
    
