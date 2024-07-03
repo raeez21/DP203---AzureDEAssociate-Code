@@ -82,7 +82,7 @@ This repo contains main code utilised while preparing for DP 203 course Azure Da
 
    TODO: Do ADF, [ADF_scripts.sql], [MappingDataFlow.sql]
 
-# 1. Azure Data Factory (ADF)
+# 2. Azure Data Factory (ADF)
 
 ADF is a cloud based ETL tool and integration service. It is used to for orchestrating data movement and transforming data at scale.  The underlying compute infrastructre (Integration runtime) is managed for you.
 
@@ -123,6 +123,10 @@ ADF is a cloud based ETL tool and integration service. It is used to for orchest
      FOr all the activities till now we were using Azure Integrated Runtime which provides compute infrastructure for our tasks (were bpth source and sinks were Azure services). This is not the case always, our data might be hosted on an on prem server. To use this server machine you need to register the server with ADF and to register you need to install Self Hosted IR.
 
      In this program, We take log files situated in a separate VM. We created a VM instance, installed the Self hosted IR and load log file from VM into a container using Pipeline Copy Activity.
-   (VERY IMP) 
-TODO: append [MappingDataFlow.sql](MappingDataFlow.sql) and [SelfHostedIR.sql](SelfHostedIR.sql)
-   
+   (VERY IMP)
+# 3. Event Hub and Streaming Analytics
+Event Hubs is a multi-protocol event streaming engine that natively supports Advanced Message Queuing Protocol (AMQP), Apache Kafka, and HTTPS protocols. It can receive and stream millions of events per second. Comapnies use Event Hubs to ingest millions of events per second from connected devices and applications. Azure Stream Analytics is a fully managed stream processing engine that is designed to analyze and process large volumes of streaming data with sub-millisecond latencies. 
+
+[EventhubsStreamAnalytics.sql](EventhubsStreamAnalytics.sql) has code and info about using Event Hubs and Stream Analytics: 
+   - TODO: Fill out different taks in this file
+   - Add screenshots
