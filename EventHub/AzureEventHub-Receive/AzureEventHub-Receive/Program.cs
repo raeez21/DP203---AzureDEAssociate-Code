@@ -2,7 +2,7 @@
 using System.Text;
 
 
-  string connection_string = "Endpoint=sb://datanamespacedp203.servicebus.windows.net/;SharedAccessKeyName=ProgramPolicy;SharedAccessKey=yLmhZRZyg1OS/JK8xsnDRxzVm/bC6Bvlm+AEhKia7n8=;EntityPath=appeventhub;EntityPath=appeventhub"
+  string connection_string = "Enter-connection-string-here;EntityPath=appeventhub"
   string consumer_group = "$Default";
 
 EventHubConsumerClient _client = new EventHubConsumerClient(consumer_group, connection_string);
