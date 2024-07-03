@@ -1,0 +1,45 @@
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.csproj.AssemblyReference.cache
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.GeneratedMSBuildEditorConfig.editorconfig
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.AssemblyInfoInputs.cache
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.AssemblyInfo.cs
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.csproj.CoreCompileInputs.cache
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.exe
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.deps.json
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.runtimeconfig.json
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.pdb
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Azure.Core.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Azure.Core.Amqp.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Azure.Messaging.EventHubs.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Microsoft.Azure.Amqp.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\System.Memory.Data.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.csproj.CopyComplete
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\refint\AzureEventHub-Send.dll
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.pdb
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.genruntimeconfig.cache
+D:\tmp1\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\ref\AzureEventHub-Send.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.csproj.AssemblyReference.cache
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.GeneratedMSBuildEditorConfig.editorconfig
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.AssemblyInfoInputs.cache
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.AssemblyInfo.cs
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.csproj.CoreCompileInputs.cache
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.sourcelink.json
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\refint\AzureEventHub-Send.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.pdb
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.exe
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.deps.json
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.runtimeconfig.json
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\AzureEventHub-Send.pdb
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Azure.Core.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Azure.Core.Amqp.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Azure.Messaging.EventHubs.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Microsoft.Azure.Amqp.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEve.9E696B37.Up2Date
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\AzureEventHub-Send.genruntimeconfig.cache
+D:\Study Materials\Data Engineering\DP-203 Azure DE Associate\code\EventHub\AzureEventHub-Send\AzureEventHub-Send\obj\Debug\net6.0\ref\AzureEventHub-Send.dll
