@@ -2,7 +2,7 @@
 using AzureEventHub_Send;
 using System.Text;
 
-string connection_string = "Endpoint=sb://datanamespacedp203.servicebus.windows.net/;SharedAccessKeyName=ProgramPolicy;SharedAccessKey=yLmhZRZyg1OS/JK8xsnDRxzVm/bC6Bvlm+AEhKia7n8=;EntityPath=appeventhub";
+string connection_string = "Enter-conncetion-string-here;EntityPath=appeventhub";
                            
 EventHubProducerClient _client = new EventHubProducerClient(connection_string);
 
