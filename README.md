@@ -128,5 +128,5 @@ ADF is a cloud based ETL tool and integration service. It is used to for orchest
 Event Hubs is a multi-protocol event streaming engine that natively supports Advanced Message Queuing Protocol (AMQP), Apache Kafka, and HTTPS protocols. It can receive and stream millions of events per second. Comapnies use Event Hubs to ingest millions of events per second from connected devices and applications. Azure Stream Analytics is a fully managed stream processing engine that is designed to analyze and process large volumes of streaming data with sub-millisecond latencies. 
 
 [EventhubsStreamAnalytics.sql](EventhubsStreamAnalytics.sql) has code and info about using Event Hubs and Stream Analytics: 
-   - TODO: Fill out different taks in this file
+   - TODO: Fill out different taks in this file, more on window function, ADF etc
    - Add screenshots
