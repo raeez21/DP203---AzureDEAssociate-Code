@@ -189,3 +189,179 @@ FROM
 
 --Run the Stream analytics job, wait for sometime and validate by selecting contents from the table:
 SELECT * FROM WebMetrics
+
+--TASK 4
+-- Window based functions in Stream Analytics
+-- Read more at: https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-window-functions
+SELECT MetricName, MetricTime, COUNT(*) as 'Count of Record found'
+FROM WebMetrics
+GROUP BY MetricName, MetricTime
+ORDER BY MetricName, MetricTime
+-- The above query shows that data is coming every minute
+-- maybe we want metrics over a particular time window
+-- There are different window functions
+
+-- 1. Tumbling Window
+
+-- Create a new table
+-- Table to collect windowed summary data
+CREATE TABLE WebMetricsSummary(
+    MetricName VARCHAR(200),
+    MetricAverage decimal,
+    WindowTime DATETIME
+)
+
+-- the query used in Stream analytics
+SELECT
+    AVG(average) as MetricAverage,
+    MAX(CAST(time as datetime)) as WindowTime,
+    metricName as MetricName
+INTO
+    [WebMetricsSummaryTableSynapse]
+FROM
+    InsightsMetricsADLS
+GROUP BY 
+    metricName, TumblingWindow(minute, 10) --window of every 10 mins
+
+-- Start the job and validate the output
+SELECT * FROM WebMetricsSummary
+SELECT COUNT(*) FROm WebMetricsSummary
+SELECT DISTINCT(WindowTime) from WebMetricsSummary
+SELECT TOP 60  *  FROM WebMetrics
+
+--Common query patterns
+-- https://learn.microsoft.com/en-us/azure/stream-analytics/stream-analytics-stream-analytics-query-patterns
+
+
+-- Task 5
+-- Reference Data
+-- We have a csv file WebMetricsTier.csv which contians tier for each metric name--> if tier > 5 that metric is imp to business
+-- This csv file is located in a contianer in ADLS
+-- Go to the Stream analytics job, create a new input
+-- This time, isntead of stream input create a 'reference input'
+-- DRop and recreate the output table in Synapse
+DROP TABLE WebMetrics
+CREATE TABLE WebMetrics(
+    Minimum decimal,
+    Maximum DECIMAL,
+    Average DECIMAL,
+    Metrictime DATETIME,
+    MetricName VARCHAR(200),
+    Tier int
+)
+-- Start the job and validate
+SELECT * FROM WebMetrics
+
+
+-- Task 6
+-- Till now we were using diagnostic settings logs as source. Now we will use NSG flow logs
+-- Create a VM---> This also creates a NSG
+-- Go to Network Watcher service and create a new flow log which points to the NSG of created VM. 
+-- This flow log creates a new directory(insights-logs-networksecuritygroupflowevent) in the container mentioned. (adlsraeez)
+-- This log is a Json file which is an array of "records" objects
+-- This file is a very complex nested json file
+-- Here we also add a UDF (user defined function) in Stream analytics
+
+-- The query to be used in Stream analytics is:
+WITH Stage1 as
+(
+    SELECT
+        Records.ArrayValue.time as RecordedTime,
+        Records.ArrayValue.properties.flows as flows
+    FROM
+        nsgflowstream n
+    CROSS APPLY GetArrayElements(n.records) as Records
+),
+STAGE2 as
+(
+    SELECT 
+        RecordedTime, GetArrayElement(flows,0) as flows -- Note the use of 'GetArrayElement' not 'GetArrayElements'
+    FROM Stage1 
+),
+STAGE3 as
+(
+    SELECT
+        S2.RecordedTime,
+        S2.flows.[rule] AS Rulename,
+        flows
+    FROM STAGE2 s2
+    CROSS APPLY GetArrayElements(s2.flows.flows) as flows
+),
+STAGE4 as
+(
+    SELECT
+        S3.RecordedTime,
+        S3.Rulename, 
+        flowTuples
+    FROM STAGE3 S3
+    CROSS APPLY GetArrayElements(flows.ArrayValue.flowTuples) as flowTuples
+)
+SELECT 
+    RecordedTime, 
+    Rulename, 
+    flowTuples.ArrayValue,
+    UDF.Getitem(flowTuples.ArrayValue,1) as SourceIpAddress,
+    UDF.Getitem(flowTuples.ArrayValue,2) as DestinationIpAddress,
+    UDF.Getitem(flowTuples.ArrayValue,4) as SourcePort,
+    UDF.Getitem(flowTuples.ArrayValue,7) as Action
+FROM 
+    STAGE4
+
+-- UDF (Getitem) written in Javascript is:
+function main(flowlog, index) {
+    var Items = flowlog.split(',');
+    return Items[index]
+}
+
+
+
+-- Task 7
+-- We have a container (insights-metrics-pt1m in datastoredp203raeez storage account) that stores metric info from web app service
+-- We want ADF to take all the info that gets recorded in this container and transfer it to table Synapse
+-- We can use Stream Analytics, but here it is to show how to use ADF to run at specific intervals and take the data
+-- If you need real time processing use Event Hubs and Stream Analytics
+-- Use ADF to process data in batches
+
+-- we use mapping data flow 
+-- FOR NOW, the data flow will take the data from staging container(stagingmetric) and takes it to another container 'output' and from this ouput container the data is taken to table in Synapse
+
+-- Create the staging container 'stagingmetric' and upload a sample json to make the pipeline
+-- Create a output staging container 'stagingoutput'
+-- Go to ADF ctreate a data flow (dataflow_Metric)
+        -- Source = stagingmetric container
+        -- Select modifier to select 3 columns
+        -- Sink = stagingoutput container
+
+-- Create the pipeline (MetricsFromContainerToSynapse)
+-- The pipeline has a data flow activity (as above) and a Copy data activity (to copy data from stagingoutput container to table in Synapse)
+-- Create the target table in synapse
+DROP TABLE WebMetrics
+CREATE TABLE WebMetrics(
+    Average DECIMAL,
+    MetricTime datetime,
+    MetricName VARCHAR(200)
+)
+SELECT * FROM WebMetrics
+DELETE FROM WebMetrics
+SELECT COUNT(*) FROM WebMetrics
+
+-- Now we want to delete the files in stagingoutput and stagingmetric containers
+
+-- Our final ADF pipeline should run at specific intervals and take newly added files in the insights-metrics-pt1m container, copies the contents of these files to
+-- stagingmetric container, then mapping data flow would take that data and put it to stagingoutput, which is taken by the copy acitvity to push to table in Synapse.
+-- Once this entire process done, we need to delete the temp staging files in stagingoutput and stagingmetric containers
+
+-- To ensure the delete, go to the data flow (dataflow_Metric)
+-- in the stagingmetricStream---->SourceOptions-->Choose 'Delete source files' in 'After completion' option
+-- For stagingoutput, use the delete activity
+
+
+-- For the pipeline, we first use the Storage Event trigger (run the pipeline whenever a blob created in partivular container stagingmetric)
+
+-- Now we can use tumbling window trigger instead of Storage Event trigger
+-- but before that add an activity to copy data from insights-metrics-pt1m container to stagingmetric container.
+-- For this copy acitivy, use Copy behaviour=Merge files, this takes all the JSON files in stagingmetric recursively and merge all the contents into just one file
+-- Now create the tubling trigger, with recurrence of 15 mins (every 15 mins this pipeline will run)
+-- For the current window, the tumbling window trigger will take data coming in that interval, not the data present in previous window
+-- This is not possible with schedule trigger, which takes all files and repeats the pipeline
+-- Tumbling trigger is perfect if you want to load delta data
