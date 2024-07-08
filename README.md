@@ -137,3 +137,6 @@ We created a namespace and hub in the Event Hub service and also Stream Analytic
    - Task 5: using reference data
    - Task 6: NSG flow logs (complex nested log file)
    - Task 7: Using ADF for batch processing logs
+
+
+  # TODO: do scala code, screenshots, 
