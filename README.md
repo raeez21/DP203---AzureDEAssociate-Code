@@ -139,4 +139,5 @@ We created a namespace and hub in the Event Hub service and also Stream Analytic
    - Task 7: Using ADF for batch processing logs
 
 
-  # TODO: do scala code, screenshots, 
+  # TODO: do scala code, screenshots, Databricks.sql, databricks/ etc
+  
