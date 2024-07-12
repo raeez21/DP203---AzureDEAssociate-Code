@@ -21,3 +21,32 @@
 
 --Task 3
 --COPY INTO command
+
+--Task 4
+--Remove duplicate rows
+
+-- Task 5
+-- Specifiying the schema
+-- Since we are using 'mergeSchema' option the stream will infer the schema from the source
+-- Since source is a csv file, every column will be treated as String
+
+
+-- Task 6
+-- Versioning of tables
+
+
+-- Task 7
+-- Reading and writing data from Synapse table in Databricks
+-- use below table to read data from in databricks
+SELECT * FROM BlobDiagnostics
+
+-- from databricks we write to a table in Synapse
+CREATE TABLE DimCustomerNew(
+    CustomerID INT NOT NULL,
+    CompanyName VARCHAR(200) NOT NULL,
+    SalesPerson VARCHAR(300) NOT NULL
+)
+WITH(
+    DISTRIBUTION = REPLICATE
+)
+SELECT * FROM DimCustomerNew

@@ -179,11 +179,17 @@ spark.conf.set(
 // MAGIC --Task 4
 // MAGIC --Streaming data using databricks
 // MAGIC -- create the target table
+// MAGIC USE appdb;
 // MAGIC CREATE TABLE DimCustomer(
 // MAGIC   CustomerID STRING,
 // MAGIC   CompanyName STRING,
 // MAGIC   SalesPerson STRING
 // MAGIC )
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC SELECT * FROM dimCustomer
 
 // COMMAND ----------
 
@@ -215,7 +221,172 @@ dfDimCustomer.writeStream.format("delta")
 // COMMAND ----------
 
 // MAGIC %sql
+// MAGIC --  Task 4
+// MAGIC -- Removing duplicates
+// MAGIC SELECT CustomerID, Count(CustomerID)
+// MAGIC From dimCustomer
+// MAGIC Group by CustomerID
+// MAGIC HaVING COUNT(CustomerID) > 1
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC delete from dimCustomer 
+
+// COMMAND ----------
+
+//use Spark session's readStream() to read incoming stream of data
+//here we using Autoloader to automatically detect the schema of loaded data--->this supports schema evolution
+// for schema evolution, it needs to have some location that keeps track of exisitng schema, that is why we need schemaLocation
+
+
+val dfDimCustomer = (spark.readStream.format("cloudfiles")
+                      .option("cloudFiles.schemaLocation",schemaLocation)
+                      .option("cloudFiles.format","csv")
+                      .load(path))
+
+// Now delete the duplicates
+val finalDimCustomer = dfDimCustomer.dropDuplicates("CustomerID")
+//after dropping duplicate data, save this into table using writeStream()
+// Go to the checkpoint container and delete the files in in, to let Databricks read the same file again
+// checkpoint location is to keep track of blobs which was already streamed. This ensures data is not read twice
+finalDimCustomer.writeStream.format("delta")
+.option("checkpointLocation",checkpointPath)
+.option("mergeSchema","true")
+.table("DimCustomer")
+
+// COMMAND ----------
+
+// MAGIC %sql
 // MAGIC SELECT * FROM DimCustomer
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC
+// MAGIC SELECT CustomerID, Count(CustomerID)
+// MAGIC From dimCustomer
+// MAGIC Group by CustomerID
+// MAGIC HaVING COUNT(CustomerID) > 1
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC -- Task 5
+// MAGIC -- Speciying shcema
+// MAGIC DROP TABLE DimCustomer;
+// MAGIC CREATE TABLE DimCustomer(
+// MAGIC   CustomerID INT, -- changed to INT
+// MAGIC   CompanyName STRING,
+// MAGIC   SalesPerson STRING
+// MAGIC )
+
+// COMMAND ----------
+
+spark.conf.set(
+  "fs.azure.account.key.adlsraeez.dfs.core.windows.net",
+  "JYgP7N+JaMow0Kt1GYi7qkKNZ5MgdmdIfaSVQ2rP+KuzsA62+AojZYtmDJEki+mO6lWnkaoCbM2V+AStWVhLDQ=="
+)
+val path = "abfss://csv@adlsraeez.dfs.core.windows.net/dimCustomers/"
+val checkpointPath = "abfss://checkpoint@adlsraeez.dfs.core.windows.net/"
+val schemaLocation = "abfss://schema@adlsraeez.dfs.core.windows.net/"
+
+// COMMAND ----------
+
+
+//  define the schenma construct
+import org.apache.spark.sql.types._
+val dataSchema = StructType(Array(
+                  StructField("CustomerID",IntegerType, true),
+                  StructField("CompanyName",StringType, true),
+                  StructField("SalesPerson",StringType, true)))
+
+// COMMAND ----------
+
+val dfDimCustomer = (spark.readStream.format("cloudfiles")
+                      .schema(dataSchema) //mention the schema
+                      // since schema specified, no need to give SchemaLocation
+                      .option("header","true")
+                      .option("cloudFiles.format","csv")
+                      .load(path))
+val finalDimCustomer = dfDimCustomer.dropDuplicates("CustomerID")
+finalDimCustomer.writeStream.format("delta")
+.option("checkpointLocation",checkpointPath)
+.option("mergeSchema","true")
+.table("DimCustomer")
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC SELECT * FROM dimCustomer;
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC -- Task 6
+// MAGIC -- Versioning of tables
+// MAGIC DESCRIBE HISTORY dimCustomer
+
+// COMMAND ----------
+
+// MAGIC %sql
+// MAGIC select * from dimCustomer
+// MAGIC VERSION AS OF 0
+
+// COMMAND ----------
+
+// Task 7
+// Read data from Synapse table and load into df 
+
+//Set the key for ADLS for the staging  location
+spark.conf.set(
+  "fs.azure.account.key.adlsraeez.dfs.core.windows.net",
+  "JYgP7N+JaMow0Kt1GYi7qkKNZ5MgdmdIfaSVQ2rP+KuzsA62+AojZYtmDJEki+mO6lWnkaoCbM2V+AStWVhLDQ=="
+)
+
+
+val df = spark.read
+        .format("com.databricks.spark.sqldw")
+        .option("url","jdbc:sqlserver://dpraeez.sql.azuresynapse.net:1433;database=datapool")
+        .option("user","sqladmin")
+        .option("password","enteryourpasshere")
+        .option("tempDir","abfss://staging@adlsraeez.dfs.core.windows.net/databricks")
+        .option("forwardSparkAzureStorageCredentials","true")
+        .option("dbTable","BlobDiagnostics")
+        .load()
+display(df)
+
+// COMMAND ----------
+
+// Similarly here write data onto table in Synapse
+//  Here we stream data residing in ADLS to Databricks and then write to Synapse table
+import org.apache.spark.sql.types._
+
+val path = "abfss://csv@adlsraeez.dfs.core.windows.net/dimCustomers/"
+val checkpointPath = "abfss://checkpoint@adlsraeez.dfs.core.windows.net/"
+val dataSchema = StructType(Array(
+                  StructField("CustomerID",IntegerType, true),
+                  StructField("CompanyName",StringType, true),
+                  StructField("SalesPerson",StringType, true)))
+
+// COMMAND ----------
+
+val dfDimCustomer = (spark.readStream.format("cloudfiles")
+                      .schema(dataSchema) //mention the schema
+                      // since schema specified, no need to give SchemaLocation
+                      .option("header","true")
+                      .option("cloudFiles.format","csv")
+                      .load(path))
+dfDimCustomer.writeStream
+              .format("com.databricks.spark.sqldw")
+              .option("url","jdbc:sqlserver://dpraeez.sql.azuresynapse.net:1433;database=datapool")
+              .option("user","sqladmin")
+              .option("password","Raeez@212121")
+              .option("tempDir","abfss://staging@adlsraeez.dfs.core.windows.net/databricks")
+              .option("forwardSparkAzureStorageCredentials","true")
+              .option("dbTable","DimCustomerNew")
+              .option("checkpointLocation",checkpointPath)
+              .start()
 
 // COMMAND ----------
 
