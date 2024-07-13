@@ -50,3 +50,28 @@ WITH(
     DISTRIBUTION = REPLICATE
 )
 SELECT * FROM DimCustomerNew
+
+-- Task 8
+-- Use Job cluster to run jobs
+-- Refer to the Notebook 'JobNotebook'
+-- Click the schedule button on top right to schedule a job. This schedules the notebook on a job cluster
+-- Terminate the all purpose cluster to make space and then schedule the job
+
+-- Task 9
+-- Run Notebooks from ADF
+--ADF makes use of the cluster in Databricks to run the jobs in a pipeline
+-- We cannot use the existing cluster bcoz it is "single user" access mode
+-- Create a new cluster with "No isolation shared" mode
+-- Now give ADF the access to Datbricks workspace
+    -- Go to workspace in Azure portal ("databricksworkspace") --> Acccess Control --> Add role assignment  --> Privileged administrator roles-->"Contributor" role
+    -- In member select "appfactory-dp203-raeez" principal that relates to the ADF
+-- Once access given, go ceate the pipeline in ADF
+-- Publish the pipeline
+-- In the cluster settings, give ADF service pipeline the accesss of "Can Manage"
+
+
+
+-- Task 10
+-- Streaming from Azure Event hubs
+-- From web app stream the diagnostic settings to a event hub
+-- To access event hubs we need to install the 'com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22' (Maven cordinates) library on our cluster
