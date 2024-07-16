@@ -138,6 +138,9 @@ We created a namespace and hub in the Event Hub service and also Stream Analytic
    - Task 6: NSG flow logs (complex nested log file)
    - Task 7: Using ADF for batch processing logs
 
-
+# 4. Spark Pool in Synapse
+ Spark is a unified engine and a big data processing framework. Main programing langs used are Python and Scala.
+ [scalaprograms/dataapp/src/main/scala/Main.scala](scalaprograms/dataapp/src/main/scala/Main.scala) contains basic SCALA syntaxes. This was defined using SBT.
+ 
   # TODO: do scala code, screenshots, Databricks.sql, databricks/ etc
   
