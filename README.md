@@ -140,7 +140,7 @@ We created a namespace and hub in the Event Hub service and also Stream Analytic
 
 # 4. Spark Pool in Synapse
  Spark is a unified engine and a big data processing framework. Main programing langs used are Python and Scala.
- [scalaprograms/dataapp/src/main/scala/Main.scala](scalaprograms/dataapp/src/main/scala/Main.scala) contains basic SCALA syntaxes. This was defined using SBT.
+ [scalaprograms/dataapp/src/main/scala/Main.scala](scalaprograms/dataapp/src/main/scala/Main.scala) contains basic SCALA syntaxes. This was defined using SBT. For more details refer: [ScalaPythonPrograms.sql](ScalaPythonPrograms.sql)
  
   # TODO: do scala code, screenshots, Databricks.sql, databricks/ etc
   
