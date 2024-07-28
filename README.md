@@ -143,4 +143,6 @@ We created a namespace and hub in the Event Hub service and also Stream Analytic
  [scalaprograms/dataapp/src/main/scala/Main.scala](scalaprograms/dataapp/src/main/scala/Main.scala) contains basic SCALA syntaxes. This was defined using SBT. For more details refer: [ScalaPythonPrograms.sql](ScalaPythonPrograms.sql)
  
   # TODO: do scala code, screenshots, Databricks.sql, databricks/ etc
+  #TODO do one more section of the onliine tutrials
+  # Complete b4 Aug
   
