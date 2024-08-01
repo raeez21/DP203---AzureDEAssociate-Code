@@ -25,6 +25,9 @@
 --Task 4
 --Remove duplicate rows
 
+--TASK 4 
+--Steraming data from data lake
+
 -- Task 5
 -- Specifiying the schema
 -- Since we are using 'mergeSchema' option the stream will infer the schema from the source
