@@ -142,9 +142,38 @@ We created a namespace and hub in the Event Hub service and also Stream Analytic
  Spark is a unified engine and a big data processing framework. Main programing langs used are Python and Scala.
  [scalaprograms/dataapp/src/main/scala/Main.scala](scalaprograms/dataapp/src/main/scala/Main.scala) contains basic SCALA syntaxes. This was defined using SBT. For more details refer: [ScalaPythonPrograms.sql](ScalaPythonPrograms.sql)
 
- Similarly we have some Python starter codes in [here](scalaprograms/dataapp/python_pgms.py)
+Similarly we have some Python starter codes in [here](scalaprograms/dataapp/python_pgms.py)
+
+ We can use Spark pool either in Azure Synapse or use spark using Azure Databricks. This section is for Spark pool in synapse
  
-  # TODO: do scala code, screenshots, Databricks.sql, databricks/ etc
+ We can create serveless spark pool in Synapse. When you define spark pool, only metadata is defined, no instances created...so there is no cost associated with the pool. When you create a session and run a spark job, that is when instances get created. We have created a spark pool and created notebooks to run spark jobs.
+
+ [SynapseSparkPoolNotebookBasics.ipynb](SynapseSparkPoolNotebookBasics.ipynb) contains notebook for running spark jobs in Synapse spark pool. It depicts functionalities like reading from container, processing it, saving it to delta table, synapse table etc.
+
+ We can also share tables and databases between different spark pools and also even serverless sql pool. This type of tables created in spark jobs and can be shared. When you create a new DB and table from sparkpool in a notebook, it creates a lake database and table in Synapse
+ 
+# 4. Azure Databricks
+Databricks is another implementation of spark with more capabilities. It is a cloud platfrom to build,scale and govern data and AI. They introduced data lakehouse which is a combination of data lake and a data warehouse.
+
+Lakehouse:
+   - transactional support (ACID properties)
+   - Open data. Data can be ingested in different formats
+   - Data governance. Keep track of data assets
+   - Schema management
+
+[Databricks.sql](Databricks.sql) has codes and explanation of differnet tasks done in databricks:
+   - Task 1 Loading data from file
+   - Task 2 reading from ADLS
+   - Task 3 COPY INTO command
+   - Task 4 Steraming data from data lake
+   - Task 5 Specifying the schema
+   - Task 6 Versioning of tables
+   - Task 7 Reading and writing data from Synapse table in Databricks
+   - Task 8 Use Job cluster to run jobs
+   - Task 9 Run Notebooks from ADF
+   - Task 10 Streaming from Azure Event hubs
+
+ 
   #TODO do one more section of the onliine tutrials
   # Complete b4 Aug
   
