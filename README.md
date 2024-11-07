@@ -1,4 +1,6 @@
 # DP203 AzureDEAssociate-Code
+COMPLETE THIS BEFORE Dec to get into ADP(Azure Data Pltform)
+
 
 This repo contains main code utilised while preparing for DP 203 course Azure Data Engineer Associate Certification
 
